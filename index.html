@@ -7,206 +7,269 @@
 <script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
 <script type="text/processing" data-processing-target="mycanvas">
 
-	var boat;
-	var bad;
-	var good;
-	var bear;
-	var fam;
+		var waves;
+		var bad;
+		var good;
+		//var mountain;	
+		var boat;
+		var bear;
+		var fam;
 	
-	void setup(){
-		background(96,181,250);
-		//fill(71, 71, 209);
-		//rect(200,700,200,100);
-		size(600,700);
-		boat=new Boat(100,50,[153, 94, 35]);
-		bad = new Bad(random(5,595),0,60,100);  
-		good =new Good(random(5,595),0,60,100); 
-		bear= new Bear(189,64,100,100);
-		fam= new Fam(500,64,100,100);
-		}
 		
-	void draw(){
-		background(96,181,250);
-		//fill(71, 71, 209);
-		//rect(200,700,200,100);
-		boat.drawBoat();
-		bad.drawBad();
-        bad.scroll();
-        bad.refillBad();
-        good.drawGood();
-        good.scroll();
-        good.refillGood();
-        bear.drawBear();
-        bear.reunite();
-        bear.die();
-        fam.drawFam();
-        
-       }
-	class Boat{
-		var width;
-		var height;
-		var xPos;
-		var yPos;
-		var r;
-		var g;
-		var b;
-		//PImage bear;
-	
-		Boat(w,h,color){
-			width=w;
-			height=h;
-			r=color[0];
-			g=color[1];
-			b=color[2];
-			xPos=mouseX;
-			yPos=600;
-			//bear=loadImage("bear.jpg");
+		void setup(){
+			background(134, 200, 247);
+			size(800,700);
+			waves = new Waves(0, 10,200, 100)
+			bad = new Bad(random(5,595),0,100,70); 
+			good = new Good(random(5,595),0,90,70);
+			//mountain = new Mountain(170, 60, 70, 50)
+			boat= new Boat(75,50,[153, 94, 35]);
+			bear= new Bear(189,64,150,50);
+			fam= new Fam(500, 64,300,150);
+		}
+
+		void draw(){  
+			background(134, 200, 247);
+			waves.drawWaves();
+			waves.scroll();
+			waves.refillWaves();
+			bad.drawBad();
+			bad.scroll();
+			bad.refillBad();
+			good.drawGood();
+			good.scroll();
+			good.refillGood();
+			boat.drawBoat();
+			bear.drawBear();
+        	bear.reunite();
+        	bear.die();
+        	fam.drawFam();
+			}
+		
+		class Waves{
+			var xPos;
+			var yPos;
+			var widthX;
+			var heightY;
+			PImage wave;
+			
+			Waves(x,y,xWidth,yHeight){
+				xPos= x;
+				yPos= y;
+				widthX= xWidth;
+				heightY= yHeight;
+				wave=loadImage("drawingWave.png");
 			}
 			
-		void drawBoat(){
-			//xPos=mouseX;
-			//image(bear,mouseX,550); 
-			noStroke();
-            fill(r,g,b);
-            xPos=mouseX;
-            arc(mouseX, 600, 150, 150, 1, 180); 	     	
-	}	
+			void drawWaves(){
+				image(wave, xPos, yPos);
 			}
+			
+			void scroll(){
+				xPos-=1;
+			}
+			
+			void refillWaves(){
+				if (xPos < -350){
+					xPos = 0;
+				}
+			}
+	}
+		
+
+		
+		class Bad{
+			var xPos;
+			var yPos;
+			var widthX;
+			var heightY;
+			PImage bad1;
+			
+			Bad(x,y,xWidth,yHeight){
+				xPos=x;
+				yPos=y;
+				widthX=xWidth;
+				heightY=yHeight;
+				bad1=loadImage("bad1.png");
+				}
+			
+			void drawBad(){
+				noStroke();
+				fill(255, 255, 255);
+				rect(xPos, yPos, widthX,heightY);
+				image(bad1,xPos, yPos);
+				}
+	
+			void scroll(){
+				yPos += 6;
+					
+			}
+			void refillBad(){
+				if(xPos>= boat.xPos- boat.width/2- bad.widthX/2 && xPos<= boat.xPos+boat.width/2+bad.widthX/2){
+					if(yPos>=boat.yPos- boat.height/2- bad.heightY/2){
+					console.log("touching");
+						bear.xPos=bear.xPos-15
+						yPos = 0;
+    					xPos=random(0,895);  
+					}
+				}
+				if (yPos > 690){
+                    yPos = 0;
+                	xPos=random(0,895);
+                	}
+			}
+}
+	
+	
+		class Good{
+			var xPos;
+			var yPos;
+			var widthX;
+			var heightY;
+			PImage good1;
+			
+			Good(x,y,xWidth,yHeight){
+				xPos=x;
+				yPos=y;
+				widthX=xWidth;
+				heightY=yHeight;
+				good1=loadImage("good1.png");
+				}
+			
+			void drawGood(){	
+				//noStroke();
+				//fill(189, 255, 204);
+				//rect(xPos, yPos, widthX,heightY);
+				image(good1,xPos, yPos);
+				}
+	
+			void scroll(){
+				yPos += 4;
+					}
+						
+			void refillGood(){
+      				console.log("Start");
+					console.log(xPos>= boat.xPos- boat.width/2- good.widthX/2);
+					console.log(xPos<= boat.xPos+boat.width/2+good.widthX/2);
+					//console.log(xPos);
+					//console.log(boat.xPos);
+					//console.log(boat.width);
+					//console.log(good.widthX);
+					console.log(yPos>=boat.yPos- boat.height/2- good.heightY/2);
+					console.log(yPos);
+					console.log(boat.height);
+					console.log(good.heightY);
+					
+      			if(xPos>= boat.xPos- boat.width/2- good.widthX/2 && xPos<= boat.xPos+boat.width/2+good.widthX/2){
+					if(yPos>=boat.yPos- boat.height/2- good.heightY/2){
+					console.log("touching");
+						bear.xPos=bear.xPos+20
+						yPos = 0;
+    					xPos=random(0,895);  
+					}
+				}
+					if (yPos > 700){
+                    	yPos = 0;
+                		xPos=random(0,895);
+					}
+			}
+}
+
+	
+	    	
+	    class Boat{
+        	var width;
+        	var height;
+        	var xPos;
+        	var yPos;
+        	var r;
+        	var g;
+        	var b;
+        	PImage boat;
         
-        class Bad{
-            var xPos;
-            var yPos;
-            var widthX;
-            var heightY;
-            var size;
-            
-            Bad(x,y,xWidth,yHeight){
-                xPos=x;
-                yPos=y;
-                widthX=xWidth;
-                heightY=yHeight;
-               
-                }
-            
-            void drawBad(){
-                fill(255,0,0);
-                rect(xPos,yPos,widthX,heightY);
-                }
-    
-            void scroll(){
-                yPos += 6;   
+        	Boat(w,h,color){
+            	width=w;
+            	//console.log(width);
+            	height=h;
+            	xPos=mouseX;
+            	yPos=600;
+            	r=color[0];
+            	g=color[1];
+            	b=color[2];
+				boat=loadImage("boat.png");
+
             }
             
-            
-            void refillBad(){
-                  if(xPos>= boat.xPos- boat.width/2- bad.widthX/2 && xPos<= boat.xPos+boat.width/2+bad.widthX/2){
-                    if(yPos>=boat.yPos- boat.height/2- bad.heightY/2){
-                    bear.xPos=bear.xPos-10;
-                        yPos = 0;
-                        xPos=random(0,600);  
-                    }
-                }
-                    if (yPos > 590){
-                        yPos = 0;
-                        xPos=random(0,600);
-                    }
+        	void drawBoat(){
+        		xPos=mouseX;
+        		fill(r,g,b);
+				rect(xPos+55, 600, width,height);
+				image(boat,mouseX,420);
             }
-}        
- 
-  		class Good{
-            var xPos;
-            var yPos;
-            var widthX;
-            var heightY;
-          
-    
-            Good(x,y,xWidth,yHeight){
-                xPos=x;
-                yPos=y;
-                widthX=xWidth;
-                heightY=yHeight;
-               
-                }
-            
-            void drawGood(){
-                fill(0,255,0);
-                rect(xPos,yPos,widthX,heightY);
-                }
-    
-            void scroll(){
-                yPos += 10;   
-            }
-            
-            
-            void refillGood(){
-                   if(xPos>= boat.xPos- boat.width/2- good.widthX/2 && xPos<= boat.xPos+boat.width/2+good.widthX/2){
-                    if(yPos>=boat.yPos- boat.height/2- good.heightY/2){
-                    console.log("touching");
-                    	bear.xPos=bear.xPos+10;
-                        yPos = 0;
-                        xPos=random(0,600);  
-                    }
-                }
-                    if (yPos > 590){
-                        yPos = 0;
-                        xPos=random(0,600);
-                    
-                    }
-                }
-            }
-            
+        }
+        
+        
 		class Bear{
 			var xPos;
             var yPos;
             var widthX;
             var heightY;
+            PImage baby;
         
-       	 Bear(x,y,xWidth,yHeight){
-        	xPos=x;
-        	yPos=y;
-        	widthX=xWidth; 
-        	heightY=yHeight;
-        	}
-        	
-        	void drawBear(){
-        		fill(0,0,255);
-        		ellipse(xPos,yPos,widthX,heightY);
-        		}
-        		
+            Bear(x,y,xWidth,yHeight){
+            xPos=x;
+            yPos=y;
+            widthX=xWidth;
+            heightY=yHeight;
+            baby=loadImage("BabyBear.png");
+            }
+            
+            void drawBear(){
+                fill(255,255,255);
+                ellipse(xPos+60,yPos+125,widthX,heightY);
+                image(baby,xPos,yPos);
+                }
+                
             
             void reunite(){
                 if (bear.xPos>=fam.xPos-fam.widthX/2){
-                	window.alert("You win! Your good deed has allowed Polie reunites with his SQUAAAD") ; 
-                	}
-                	}
+                    window.alert("You win! Your good deed has allowed Polie reunites with his SQUAAAD") ;
+                    }
+                    }
             void die(){
-        		if (bear.xPos<=0){
-            		window.alert("You are a horrible person! You are not doing good deed to this planet!");
-            		}            
-           			}
-           			}
+				if (bear.xPos<=0){
+					window.alert("You are a horrible person! You are not doing good deed to this planet!");
+                    }            
+                       }
+    }
             
             
          class Fam{
-         	var xPos;
-         	var yPos;
-         	var widthX;
-         	var heightY;
-         	
-         	Fam(x,y,xWidth,yHeight){
-         		xPos=x;
-         		yPos=y;
-         		widthX=xWidth;
-         		heightY=yHeight;
-         		}
-         		
-         	void drawFam(){
-         		fill(0,0,255);
-        		ellipse(xPos,yPos,widthX,heightY);
-         		} 			
+             var xPos;
+             var yPos;
+             var widthX;
+             var heightY;
+             PImage mom;
+             
+             Fam(x,y,xWidth,yHeight){
+                 xPos=x;
+                 yPos=y;
+                 widthX=xWidth;
+                 heightY=yHeight;
+                 mom= loadImage("MamaPolarBear.png");
+                 }
+                 
+             void drawFam(){
+				fill(255,255,255);
+                ellipse(xPos+170,yPos+170,widthX+20,heightY);
+                rect(xPos+170, yPos+120, widthX,heightY);
+                rect(xPos+120, yPos+110, widthX,heightY);
+                rect(xPos+80, yPos+100, widthX,heightY);
+                image(mom, xPos, yPos);
+                 }             
     
          }
-	
+
 </script>
 </head>
 
