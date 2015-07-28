@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Animal Rescuers</title>
+<link rel="stylesheet" type="text/css" href="animalrescuer.css">		
+<script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
+<script type="text/processing" data-processing-target="mycanvas">
+
+	var boat;
+	var bad;
+	var good;
+	var bear;
+	var fam;
+	
+	void setup(){
+		background(96,181,250);
+		//fill(71, 71, 209);
+		//rect(200,700,200,100);
+		size(600,700);
+		boat=new Boat(100,50,[153, 94, 35]);
+		bad = new Bad(random(5,595),0,60,100);  
+		good =new Good(random(5,595),0,60,100); 
+		bear= new Bear(189,64,100,100);
+		fam= new Fam(500,64,100,100);
+		}
+		
+	void draw(){
+		background(96,181,250);
+		//fill(71, 71, 209);
+		//rect(200,700,200,100);
+		boat.drawBoat();
+		bad.drawBad();
+        bad.scroll();
+        bad.refillBad();
+        good.drawGood();
+        good.scroll();
+        good.refillGood();
+        bear.drawBear();
+        bear.reunite();
+        bear.die();
+        fam.drawFam();
+        
+       }
+	class Boat{
+		var width;
+		var height;
+		var xPos;
+		var yPos;
+		var r;
+		var g;
+		var b;
+		//PImage bear;
+	
+		Boat(w,h,color){
+			width=w;
+			height=h;
+			r=color[0];
+			g=color[1];
+			b=color[2];
+			xPos=mouseX;
+			yPos=600;
+			//bear=loadImage("bear.jpg");
+			}
+			
+		void drawBoat(){
+			//xPos=mouseX;
+			//image(bear,mouseX,550); 
+			noStroke();
+            fill(r,g,b);
+            xPos=mouseX;
+            arc(mouseX, 600, 150, 150, 1, 180); 	     	
+	}	
+			}
+        
+        class Bad{
+            var xPos;
+            var yPos;
+            var widthX;
+            var heightY;
+            var size;
+            
+            Bad(x,y,xWidth,yHeight){
+                xPos=x;
+                yPos=y;
+                widthX=xWidth;
+                heightY=yHeight;
+               
+                }
+            
+            void drawBad(){
+                fill(255,0,0);
+                rect(xPos,yPos,widthX,heightY);
+                }
+    
+            void scroll(){
+                yPos += 6;   
+            }
+            
+            
+            void refillBad(){
+                  if(xPos>= boat.xPos- boat.width/2- bad.widthX/2 && xPos<= boat.xPos+boat.width/2+bad.widthX/2){
+                    if(yPos>=boat.yPos- boat.height/2- bad.heightY/2){
+                    bear.xPos=bear.xPos-10;
+                        yPos = 0;
+                        xPos=random(0,600);  
+                    }
+                }
+                    if (yPos > 590){
+                        yPos = 0;
+                        xPos=random(0,600);
+                    }
+            }
+}        
+ 
+  		class Good{
+            var xPos;
+            var yPos;
+            var widthX;
+            var heightY;
+          
+    
+            Good(x,y,xWidth,yHeight){
+                xPos=x;
+                yPos=y;
+                widthX=xWidth;
+                heightY=yHeight;
+               
+                }
+            
+            void drawGood(){
+                fill(0,255,0);
+                rect(xPos,yPos,widthX,heightY);
+                }
+    
+            void scroll(){
+                yPos += 10;   
+            }
+            
+            
+            void refillGood(){
+                   if(xPos>= boat.xPos- boat.width/2- good.widthX/2 && xPos<= boat.xPos+boat.width/2+good.widthX/2){
+                    if(yPos>=boat.yPos- boat.height/2- good.heightY/2){
+                    console.log("touching");
+                    	bear.xPos=bear.xPos+10;
+                        yPos = 0;
+                        xPos=random(0,600);  
+                    }
+                }
+                    if (yPos > 590){
+                        yPos = 0;
+                        xPos=random(0,600);
+                    
+                    }
+                }
+            }
+            
+		class Bear{
+			var xPos;
+            var yPos;
+            var widthX;
+            var heightY;
+        
+       	 Bear(x,y,xWidth,yHeight){
+        	xPos=x;
+        	yPos=y;
+        	widthX=xWidth; 
+        	heightY=yHeight;
+        	}
+        	
+        	void drawBear(){
+        		fill(0,0,255);
+        		ellipse(xPos,yPos,widthX,heightY);
+        		}
+        		
+            
+            void reunite(){
+                if (bear.xPos>=fam.xPos-fam.widthX/2){
+                	window.alert("You win! Your good deed has allowed Polie reunites with his SQUAAAD") ; 
+                	}
+                	}
+            void die(){
+        		if (bear.xPos<=0){
+            		window.alert("You are a horrible person! You are not doing good deed to this planet!");
+            		}            
+           			}
+           			}
+            
+            
+         class Fam{
+         	var xPos;
+         	var yPos;
+         	var widthX;
+         	var heightY;
+         	
+         	Fam(x,y,xWidth,yHeight){
+         		xPos=x;
+         		yPos=y;
+         		widthX=xWidth;
+         		heightY=yHeight;
+         		}
+         		
+         	void drawFam(){
+         		fill(0,0,255);
+        		ellipse(xPos,yPos,widthX,heightY);
+         		} 			
+    
+         }
+	
+</script>
+</head>
+
+
+
+<body background="green.jpg">
+<h1>Animal Rescuers</h1>
+</header>
+ 
+<nav id="main">
+<ul> 
+    <li><a href= 'animalrescuer.html'> home page </a></li>
+    <li><a href= 'ourplanet.html'> our planet</a></li>
+    <li><a href= 'aboutus.html'> about us </a></li>
+    <li><a href= 'contactus.html'> contact us </a></li>
+    
+
+</nav>
+<br>
+<br>
+<br>
+<h2>How to Play:</h2>
+<br>
+<p1><font align="center">Global Warming causes many ice caps to melt, this destroys the habitat of various animals, such as polar bears.
+<br>Polie has been separated from his mother, help him reunite with her by catching good deeds.</font > </p1>
+<br>
+Plane=Bad Deed!! More Carbon dioxide will cause more ice caps to melt!
+<br>
+Bicycle= Good Deed!! Less Pollution to the atmosphere!
+
+<br>
+<br><br>
+<canvas id="mycanvas"></canvas>
+</body>
+</html>
+
+
+
+
