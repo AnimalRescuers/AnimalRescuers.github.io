@@ -4,6 +4,7 @@
 <head>
 <title>Animal Rescuers</title>
 <link rel="stylesheet" type="text/css" href="animalrescuer.css">		
+<link rel="shortcut icon" href="globe.jpg">
 <script src="http://cloud.github.com/downloads/processing-js/processing-js/processing-1.4.1.min.js"></script>
 <script type="text/processing" data-processing-target="mycanvas">
 
@@ -101,7 +102,7 @@
 				}
 	
 			void scroll(){
-				yPos += 6;
+				yPos +=random(4,8);
 					
 			}
 			void refillBad(){
@@ -144,7 +145,7 @@
 				}
 	
 			void scroll(){
-				yPos += 4;
+				yPos += random(4,8);
 					}
 						
 			void refillGood(){
@@ -275,8 +276,8 @@
 
 
 
-<body background="sea.jpg">
-<h1>Animal Rescuers</h1>
+<body>
+<h1><img src="globe.jpg" alt="globe image" style="width:100px;height:100px;">Animal Rescuers</h1>
 </header>
  
 <nav id="main">
@@ -289,17 +290,14 @@
 
 </nav>
 <br>
-<br>
-<br>
 <h2>How to Play:</h2>
 <br>
-<p1><font align="center">Global Warming causes many ice caps to melt, this destroys the habitat of various animals, such as polar bears.
+<p1><font align="justify">Global Warming causes many ice caps to melt, this destroys the habitat of various animals, such as polar bears.
 <br>Polie has been separated from his mother, help him reunite with her by catching good deeds.</font > </p1>
 <br>
-Plane=Bad Deed!! More Carbon dioxide will cause more ice caps to melt!
+<p2><font align="justify">Plane=Bad Deed!! More Carbon dioxide will cause more ice caps to melt!</font></p2>
 <br>
-Bicycle= Good Deed!! Less Pollution to the atmosphere!
-
+<p3><font align="justify">Bicycle= Good Deed!! Less Pollution to the atmosphere!</font>
 <br>
 <br><br>
 <canvas id="mycanvas"></canvas>
