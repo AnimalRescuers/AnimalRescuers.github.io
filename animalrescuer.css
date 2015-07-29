@@ -12,7 +12,7 @@ border-bottom:10px solid;
 }
 nav ul{
     height:50px;
-    width:600px;
+    width:800px;
     margin:0 auto;
     
 }
@@ -58,5 +58,11 @@ border-width: 10px;
 
 
 
-}
+.img-circle {
+     border-radius: 99%;
+    
+    }
+div1{
+ column-count: 2;
+ }
 </style>
